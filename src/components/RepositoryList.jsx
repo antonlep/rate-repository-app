@@ -1,11 +1,11 @@
-import { FlatList, View, StyleSheet } from 'react-native';
-import RepositoryItem from './RepositoryItem';
+import { FlatList, View, StyleSheet } from 'react-native'
+import RepositoryItem from './RepositoryItem'
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
-});
+})
 
 const repositories = [
   {
@@ -52,9 +52,9 @@ const repositories = [
     reviewCount: 0,
     ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
   },
-];
+]
 
-const ItemSeparator = () => <View style={styles.separator} />;
+const ItemSeparator = () => <View style={styles.separator} />
 
 const RepositoryList = () => {
   return (
@@ -63,7 +63,7 @@ const RepositoryList = () => {
       ItemSeparatorComponent={ItemSeparator}
       renderItem={RepositoryItem}
     />
-  );
-};
+  )
+}
 
-export default RepositoryList;
+export default RepositoryList
