@@ -4,7 +4,7 @@ import { Link } from 'react-router-native'
 
 const styles = StyleSheet.create({
   button: {
-    padding: 5,
+    paddingRight: 20,
   },
 })
 
