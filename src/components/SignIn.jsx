@@ -80,7 +80,7 @@ const SignIn = () => {
     try {
       const { data } = await signIn({ username, password })
       console.log(data)
-      navigate('/repositorylist')
+      navigate('/', { replace: true })
     } catch (e) {
       console.log(e)
     }
@@ -88,7 +88,6 @@ const SignIn = () => {
 
   return (
     <>
-      <AppBar />
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}

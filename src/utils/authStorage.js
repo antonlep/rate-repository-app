@@ -15,10 +15,7 @@ class AuthStorage {
     // const currentProducts = await this.getProducts();
     // const newProducts = [...currentProducts, productId];
 
-    await AsyncStorage.setItem(
-      `${this.namespace}:token`,
-      JSON.stringify(accessToken)
-    )
+    await AsyncStorage.setItem(`${this.namespace}:token`, accessToken)
   }
 
   async removeAccessToken() {

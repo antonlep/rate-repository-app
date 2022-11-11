@@ -21,7 +21,6 @@ const RepositoryList = () => {
 
   return (
     <>
-      <AppBar />
       <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}

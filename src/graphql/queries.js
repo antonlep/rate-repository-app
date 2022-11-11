@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client'
-import { REPOSITORY_DETAILS } from './fragments'
+import { PERSON_DETAILS, REPOSITORY_DETAILS } from './fragments'
 
 export const GET_REPOSITORIES = gql`
   query {
@@ -17,8 +17,8 @@ export const GET_REPOSITORIES = gql`
 export const ME = gql`
   query {
     me {
-      id
-      username
+      ...PersonDetails
     }
   }
+  ${PERSON_DETAILS}
 `

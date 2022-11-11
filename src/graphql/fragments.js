@@ -20,3 +20,10 @@ export const REPOSITORY_DETAILS = gql`
     watchersCount
   }
 `
+
+export const PERSON_DETAILS = gql`
+  fragment PersonDetails on User {
+    username
+    id
+  }
+`
