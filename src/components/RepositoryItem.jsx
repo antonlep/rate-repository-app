@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet, Pressable } from 'react-native'
 import Text from './Text'
 import theme from '../theme'
 
@@ -42,7 +42,7 @@ const count1k = (count) => {
   }
 }
 
-const repositoryItem = ({ item }) => {
+const RepositoryItem = ({ item }) => {
   return (
     <View testID="repositoryItem" style={styles.container}>
       <View style={styles.top}>
@@ -88,4 +88,4 @@ const repositoryItem = ({ item }) => {
   )
 }
 
-export default repositoryItem
+export default RepositoryItem
