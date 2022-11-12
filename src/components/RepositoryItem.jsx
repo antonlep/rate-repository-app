@@ -2,7 +2,18 @@ import { View, Image, StyleSheet, Pressable } from 'react-native'
 import Text from './Text'
 import theme from '../theme'
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+  button: {
+    flexDirection: 'row',
+    backgroundColor: theme.colors.primary,
+    padding: 20,
+    margin: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+  },
+  separator: {
+    height: 10,
+  },
   tinyLogo: {
     width: 50,
     height: 50,
