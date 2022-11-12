@@ -44,7 +44,7 @@ const count1k = (count) => {
 
 const repositoryItem = ({ item }) => {
   return (
-    <View style={styles.container}>
+    <View testID="repositoryItem" style={styles.container}>
       <View style={styles.top}>
         <View style={styles.lefttop}>
           <Image

@@ -8,7 +8,7 @@ import useSignIn from '../hooks/useSignIn'
 import { useNavigate } from 'react-router-native'
 import AppBar from './AppBar'
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: 'white',
@@ -32,12 +32,12 @@ const styles = StyleSheet.create({
   },
 })
 
-const initialValues = {
+export const initialValues = {
   username: '',
   password: '',
 }
 
-const validationSchema = yup.object().shape({
+export const validationSchema = yup.object().shape({
   username: yup
     .string()
     .min(3, 'Username length must be at least 3')
@@ -48,22 +48,24 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 })
 
-const SignInForm = ({ onSubmit }) => {
+export const SignInForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <FormikTextInput
+        testID="usernameInput"
         name="username"
         placeholder="Username"
         style={styles.field}
       />
       <FormikTextInput
+        testID="passwordInput"
         name="password"
         placeholder="Password"
         style={styles.field}
       />
       <Pressable onPress={onSubmit} style={styles.button}>
         <Text fontSize="subheading" color="light">
-          Sign in
+          Submit
         </Text>
       </Pressable>
     </View>
@@ -92,7 +94,7 @@ const SignIn = () => {
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
-        style={styles.main}
+        // style={styles.main}
       >
         {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
       </Formik>
