@@ -4,11 +4,11 @@ import FormikTextInput from './FormikTextInput'
 import theme from '../theme'
 import Text from './Text'
 import * as yup from 'yup'
+import useSignUp from '../hooks/useSignUp'
 import useSignIn from '../hooks/useSignIn'
 import { useNavigate } from 'react-router-native'
-import AppBar from './AppBar'
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: 'white',
@@ -32,54 +32,66 @@ export const styles = StyleSheet.create({
   },
 })
 
-export const initialValues = {
+const initialValues = {
   username: '',
   password: '',
+  passwordConfirm: '',
 }
 
-export const validationSchema = yup.object().shape({
+const validationSchema = yup.object().shape({
   username: yup
     .string()
     .required('Username is required')
-    .min(3, 'Username length must be at least 3'),
+    .min(1, 'Username length must be at least 1')
+    .max(30, 'Username length must be at most 30'),
   password: yup
     .string()
     .required('Password is required')
-    .min(3, 'Password length must be at least 3'),
+    .min(5, 'Password length must be at least 5')
+    .max(50, 'Password length must be at most 50'),
+  passwordConfirm: yup
+    .string()
+    .required('Password confirm is required')
+    .oneOf([yup.ref('password'), null], 'Passwords dont match'),
 })
 
-export const SignInForm = ({ onSubmit }) => {
+const SignUpForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <FormikTextInput
-        testID="usernameInput"
         name="username"
         placeholder="Username"
         style={styles.field}
       />
       <FormikTextInput
-        testID="passwordInput"
         name="password"
         placeholder="Password"
         style={styles.field}
       />
+      <FormikTextInput
+        name="passwordConfirm"
+        placeholder="Password confirmation"
+        style={styles.field}
+      />
       <Pressable onPress={onSubmit} style={styles.button}>
         <Text fontSize="subheading" color="light">
-          Submit
+          Sign up
         </Text>
       </Pressable>
     </View>
   )
 }
 
-const SignIn = () => {
+const SignUp = () => {
   const navigate = useNavigate()
+  const [signUp] = useSignUp()
   const [signIn] = useSignIn()
 
   const onSubmit = async (values) => {
     const { username, password } = values
 
     try {
+      await signUp({ username, password })
       const { data } = await signIn({ username, password })
       console.log(data)
       navigate('/', { replace: true })
@@ -96,10 +108,10 @@ const SignIn = () => {
         validationSchema={validationSchema}
         // style={styles.main}
       >
-        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+        {({ handleSubmit }) => <SignUpForm onSubmit={handleSubmit} />}
       </Formik>
     </>
   )
 }
 
-export default SignIn
+export default SignUp

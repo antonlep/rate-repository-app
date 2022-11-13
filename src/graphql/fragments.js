@@ -35,6 +35,25 @@ export const REPOSITORY_DETAILS = gql`
   }
 `
 
+export const REVIEW_DETAILS = gql`
+  fragment ReviewDetails on Review {
+    createdAt
+    id
+    rating
+    repository {
+      name
+      id
+    }
+    repositoryId
+    text
+    user {
+      username
+      id
+    }
+    userId
+  }
+`
+
 export const PERSON_DETAILS = gql`
   fragment PersonDetails on User {
     username

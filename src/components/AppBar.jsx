@@ -30,6 +30,7 @@ const AppBar = () => {
         <ScrollView horizontal contentContainerStyle={styles.scrollContent}>
           <AppBarTab desc="Repositories" link="/repositorylist" />
           <AppBarTab desc="Sign in" link="/signin" />
+          <AppBarTab desc="Sign up" link="/signup" />
         </ScrollView>
       </View>
     )
@@ -38,6 +39,7 @@ const AppBar = () => {
       <View style={styles.container}>
         <ScrollView horizontal contentContainerStyle={styles.scrollContent}>
           <AppBarTab desc="Repositories" link="/repositorylist" />
+          <AppBarTab desc="Create a review" link="/createreview" />
           <Pressable style={styles.button} onPress={signOut}>
             <Text color="light" fontSize="topbar">
               Sign out

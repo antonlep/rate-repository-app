@@ -4,9 +4,10 @@ import FormikTextInput from './FormikTextInput'
 import theme from '../theme'
 import Text from './Text'
 import * as yup from 'yup'
-import useSignIn from '../hooks/useSignIn'
+import useCreateReview from '../hooks/useCreateReview'
 import { useNavigate } from 'react-router-native'
-import AppBar from './AppBar'
+import { GET_REPOSITORY } from '../graphql/queries'
+import { useQuery } from '@apollo/client'
 
 export const styles = StyleSheet.create({
   container: {
@@ -33,56 +34,68 @@ export const styles = StyleSheet.create({
 })
 
 export const initialValues = {
-  username: '',
-  password: '',
+  ownername: '',
+  repositoryname: '',
+  rating: 0,
+  review: '',
 }
 
 export const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('Username is required')
-    .min(3, 'Username length must be at least 3'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(3, 'Password length must be at least 3'),
+  ownername: yup.string().required('Repository owner name is required'),
+  repositoryname: yup.string().required('Repository name is required'),
+  rating: yup.number().required('Rating is required').max(100).min(0),
 })
 
-export const SignInForm = ({ onSubmit }) => {
+const CreateReviewForm = ({ onSubmit }) => {
   return (
     <View style={styles.container}>
       <FormikTextInput
-        testID="usernameInput"
-        name="username"
-        placeholder="Username"
+        name="ownername"
+        placeholder="Repository owner name"
         style={styles.field}
       />
       <FormikTextInput
-        testID="passwordInput"
-        name="password"
-        placeholder="Password"
+        name="repositoryname"
+        placeholder="Repository name"
         style={styles.field}
+      />
+      <FormikTextInput
+        name="rating"
+        placeholder="Rating between 0 and 100"
+        style={styles.field}
+      />
+      <FormikTextInput
+        name="review"
+        placeholder="Review"
+        style={styles.field}
+        multiline={true}
       />
       <Pressable onPress={onSubmit} style={styles.button}>
         <Text fontSize="subheading" color="light">
-          Submit
+          Create a review
         </Text>
       </Pressable>
     </View>
   )
 }
 
-const SignIn = () => {
+const CreateReview = () => {
   const navigate = useNavigate()
-  const [signIn] = useSignIn()
+  const [createReview] = useCreateReview()
 
   const onSubmit = async (values) => {
-    const { username, password } = values
+    const { ownername, repositoryname, rating, review } = values
 
     try {
-      const { data } = await signIn({ username, password })
-      console.log(data)
-      navigate('/', { replace: true })
+      const { data } = await createReview({
+        ownername,
+        repositoryname,
+        rating,
+        review,
+      })
+      const repositoryId = data.data.createReview.repositoryId
+      navigate(`/${repositoryId}`)
+      //   navigate(`/${data.repositoryId}`)
     } catch (e) {
       console.log(e)
     }
@@ -94,12 +107,11 @@ const SignIn = () => {
         initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
-        // style={styles.main}
       >
-        {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
+        {({ handleSubmit }) => <CreateReviewForm onSubmit={handleSubmit} />}
       </Formik>
     </>
   )
 }
 
-export default SignIn
+export default CreateReview

@@ -17,7 +17,7 @@ const RepositoryList = () => {
   const navigate = useNavigate()
 
   const onSubmit = ({ item }) => {
-    navigate(`/${item.id}`, { state: item })
+    navigate(`/${item.id}`)
   }
 
   const { repositories } = useRepositories()

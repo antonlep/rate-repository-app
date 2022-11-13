@@ -5,6 +5,8 @@ import Text from './Text'
 import theme from '../theme'
 import * as Linking from 'expo-linking'
 import { format, parseISO } from 'date-fns'
+import { useQuery } from '@apollo/client'
+import { GET_REPOSITORY } from '../graphql/queries'
 
 export const styles = StyleSheet.create({
   button: {
@@ -75,8 +77,14 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const location = useLocation()
-  const item = location.state
-
+  const { data, loading } = useQuery(GET_REPOSITORY, {
+    variables: { repositoryId: location.pathname.substring(1) },
+    fetchPolicy: 'cache-and-network',
+  })
+  if (loading) {
+    return <Text>loading...</Text>
+  }
+  const item = data.repository
   const reviewNodes = item.reviews
     ? item.reviews.edges.map((edge) => edge.node)
     : []
