@@ -6,7 +6,7 @@ import theme from '../theme'
 import * as Linking from 'expo-linking'
 import { format, parseISO } from 'date-fns'
 import { useQuery } from '@apollo/client'
-import { GET_REPOSITORY } from '../graphql/queries'
+import useRepository from '../hooks/useRepository'
 
 export const styles = StyleSheet.create({
   button: {
@@ -77,26 +77,37 @@ const ReviewItem = ({ review }) => {
 
 const SingleRepository = () => {
   const location = useLocation()
-  const { data, loading } = useQuery(GET_REPOSITORY, {
-    variables: { repositoryId: location.pathname.substring(1) },
+  const { repository, loading, fetchMore } = useRepository({
+    variables: { repositoryId: location.pathname.substring(1), first: 5 },
     fetchPolicy: 'cache-and-network',
   })
   if (loading) {
     return <Text>loading...</Text>
   }
-  const item = data.repository
-  const reviewNodes = item.reviews
-    ? item.reviews.edges.map((edge) => edge.node)
+
+  if (!repository) {
+    return <Text>loading...</Text>
+  }
+
+  const reviewNodes = repository.reviews
+    ? repository.reviews.edges.map((edge) => edge.node)
     : []
+
+  const onEndReach = () => {
+    console.log('You have reached the end of the list')
+    fetchMore()
+  }
 
   return (
     <FlatList
       data={reviewNodes}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
-      ListHeaderComponent={() => <RepositoryInfo item={item} />}
+      ListHeaderComponent={() => <RepositoryInfo item={repository} />}
       ItemSeparatorComponent={ItemSeparator}
       style={styles.container}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       // ...
     />
   )
