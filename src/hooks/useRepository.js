@@ -10,11 +10,6 @@ const useRepository = ({ variables }) => {
     }
   )
 
-  console.log(variables)
-
-  console.log(loading)
-  console.log(data)
-
   const handleFetchMore = () => {
     const canFetchMore =
       !loading && data?.repository.reviews.pageInfo.hasNextPage

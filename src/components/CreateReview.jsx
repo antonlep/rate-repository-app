@@ -6,8 +6,6 @@ import Text from './Text'
 import * as yup from 'yup'
 import useCreateReview from '../hooks/useCreateReview'
 import { useNavigate } from 'react-router-native'
-import { GET_REPOSITORY } from '../graphql/queries'
-import { useQuery } from '@apollo/client'
 
 export const styles = StyleSheet.create({
   container: {
